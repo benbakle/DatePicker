@@ -1,0 +1,121 @@
+﻿
+.show-picker {
+  position: relative;
+}
+
+.calendar {
+  min-width: 300px;
+  width: calc(100% - 30px);
+  max-width: 650px;
+  opacity: 0;
+  transition: .5s;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  box-shadow: 0 0 10 #333;
+  padding: 15px;
+  visibility: hidden;
+  border-radius: 2px;
+  z-index: 10;
+  box-sizing: border-box;
+  background:linear-gradient(#fff,#fff);
+  border:1px solid #999;
+}
+
+.visible {
+  opacity: 1;
+  visibility: visible;
+    box-shadow: 0 0 50px #333;
+}
+
+label {
+  position: relative;
+}
+
+.years,
+.months {
+  margin-bottom: 15px;
+  position: relative;
+  border-bottom: 1px solid #efefef;
+}
+
+.days {
+  min-height: 250px;
+
+}
+
+.years {}
+
+.day-spacer,
+a.day,
+a.month,
+a.year {
+  display: inline-block;
+  text-align: center;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #333;
+  font-family: Calibri;
+  padding: 10px 0;
+  transition:.25s;
+}
+
+a.month,
+a.year {
+  font-size: 14px;
+  border-left: 1px solid #efefef;
+  border-top: 1px solid #efefef;
+}
+
+a.month:nth-child(4n),
+a.year:nth-child(5n) {
+  border-right: 1px solid #efefef;
+}
+
+.day{
+    border: .5px solid #efefef;
+}
+
+a.day:hover,
+a.month:hover,
+a.year:hover,
+.selected
+{
+  font-weight:700;
+}
+
+a.day:hover,
+a.month:hover,
+a.year:hover
+{
+  background-color:#efefef;
+}
+
+.selected{
+    background-color:#ddd;
+}
+
+.day-spacer,
+a.day {
+  width: 14.28571428571429%;
+}
+a.year {
+  width:20%;
+}
+a.month
+{  
+  width: 25%;
+}
+
+.start-time,
+.end-time{
+  padding: 10px 5px;
+  width: 100%;
+  max-width:250px;
+  cursor:pointer;
+}
+
+.submit {
+  padding: 10px 5px;
+}

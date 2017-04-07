@@ -1,0 +1,498 @@
+﻿/// <reference path="variables.scss" />
+
+:root
+{
+    font-size: $root_font-size;
+}
+.root
+{
+    font-size:$root_font-size;
+}
+body, .body-text
+{
+    color: $body_color;
+    font-family: $body_font-family;
+    font-size: $body_font-size;
+    font-weight: $body_font-weight;
+    transition: $body_transition;
+}
+
+.container
+{
+    margin: $container_margin;
+    max-width: $container_max-width;
+    padding-left: $container_padding-left;
+    padding-right: $container_padding-right;
+    width: $container_width;
+}
+
+.accent-font
+{
+    font-family: $accent_font-family;
+    font-style: $accent_font-style;
+    font-weight: $accent_font-weight;
+    font-size: $accent_font-size;
+}
+
+img
+{
+    max-width: $img_max-width;
+}
+
+ul
+{
+    list-style: $ul_list-style;
+    padding: $ul_padding;
+}
+
+p, .p, article, .article
+{
+    font-size: $p_font-size;
+    line-height: $p_line-height;
+    transition: $global_transition;
+}
+
+blockquote
+{
+    font-size: $p_font-size;
+    transition: $global_transition;
+}
+blockquote small{
+    font-size: .75rem;
+}
+
+small
+{
+    font-size: .75rem;
+    transition: $global_transition;
+}
+
+.em
+{
+    font-style: $em_font-style;
+}
+
+
+a
+{
+    color: $a_color;
+    text-decoration: $a_text-decoration;
+    transition: $global_transition;
+}
+a.hover, a.focus,
+a:hover, a:focus
+{
+    color: $a-hover_color;
+    text-decoration: $a-hover_text-decoration;
+}
+
+a:focus, a.focus
+{
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+h1, .h1
+{
+    font-family: $h1_font-family;
+    font-weight: $h1_font-weight;
+    line-height: $h1_line-height;
+    color: $h1_color;
+    margin-top: $h1_margin-top;
+    margin-bottom: $h1_margin-bottom;
+    font-size: $h1_font-size;
+    font-style: $h1_font-style;
+    transition: $global_transition;
+}
+
+h1 small, h1 .small, .h1 small, .h1 .small
+{
+    font-size: $h1-small_font-size;
+    font-weight: $h1-small_font-weight;
+    line-height: $h1-small_line-height;
+    color: $h1-small_color;
+}
+
+h2, .h2
+{
+    font-family: $h2_font-family;
+    font-weight: $h2_font-weight;
+    line-height: $h2_line-height;
+    color: $h2_color;
+    margin-top: $h2_margin-top;
+    margin-bottom: $h2_margin-bottom;
+    font-size: $h2_font-size;
+    font-style: $h2_font-style;
+    transition: $global_transition;
+}
+
+h2 small, h2 .small, .h2 small, .h2 .small
+{
+    font-size: $h2-small_font-size;
+    font-weight: $h2-small_font-weight;
+    line-height: $h2-small_line-height;
+    color: $h2-small_color;
+}
+
+h3, .h3
+{
+    font-family: $h3_font-family;
+    font-weight: $h3_font-weight;
+    line-height: $h3_line-height;
+    color: $h3_color;
+    margin-top: $h3_margin-top;
+    margin-bottom: $h3_margin-bottom;
+    font-size: $h3_font-size;
+    font-style: $h3_font-style;
+    transition: $global_transition;
+}
+
+h3 small, h3 .small, .h3 small, .h3 .small
+{
+    font-size: $h3-small_font-size;
+    font-weight: $h3-small_font-weight;
+    line-height: $h3-small_line-height;
+    color: $h3-small_color;
+}
+
+h4, .h4
+{
+    font-family: $h4_font-family;
+    font-weight: $h4_font-weight;
+    line-height: $h4_line-height;
+    color: $h4_color;
+    margin-top: $h4_margin-top;
+    margin-bottom: $h4_margin-bottom;
+    font-size: $h4_font-size;
+    font-style: $h4_font-style;
+    transition: $global_transition;
+}
+
+h4 small, h4 .small, .h4 small, .h4 .small
+{
+    font-size: $h4-small_font-size;
+    font-weight: $h4-small_font-weight;
+    line-height: $h4-small_line-height;
+    color: $h4-small_color;
+}
+
+h5, .h5
+{
+    font-family: $h5_font-family;
+    font-weight: $h5_font-weight;
+    line-height: $h5_line-height;
+    color: $h5_color;
+    margin-top: $h5_margin-top;
+    margin-bottom: $h5_margin-bottom;
+    font-size: $h5_font-size;
+    font-style: $h5_font-style;
+    transition: $global_transition;
+}
+
+h5 small, h5 .small, .h5 small, .h5 .small
+{
+    font-size: $h5-small_font-size;
+    font-weight: $h5-small_font-weight;
+    line-height: $h5-small_line-height;
+    color: $h5-small_color;
+}
+
+h6, .h6
+{
+    font-family: $h6_font-family;
+    font-weight: $h6_font-weight;
+    line-height: $h6_line-height;
+    color: $h6_color;
+    margin-top: $h6_margin-top;
+    margin-bottom: $h6_margin-bottom;
+    font-size: $h6_font-size;
+    font-style: $h6_font-style;
+    transition: $global_transition;
+}
+
+h6 small, h6 .small, .h6 small, .h6 .small
+{
+    font-size: $h6-small_font-size;
+    font-weight: $h6-small_font-weight;
+    line-height: $h6-small_line-height;
+    color: $h6-small_color;
+}
+
+.btn
+{
+    display: $btn_display;
+    margin-bottom: $btn_margin-bottom;
+    font-weight: $btn_font-weight;
+    text-align: $btn_text-align;
+    vertical-align: $btn_vertical-align;
+    touch-action: $btn_touch-action;
+    cursor: $btn_cursor;
+    background-image: $btn_background-image;
+    border: $btn_border;
+    white-space: $btn_white-space;
+    padding: $btn_padding;
+    font-size: $btn_font-size;
+    line-height: $btn_line-height;
+    border-radius: $btn_border-radius;
+    text-decoration: $btn_text-decoration !important;
+    width: $btn_max-width;
+    max-width: $btn_max-width;
+    transition: $btn_transition;
+    -webkit-user-select: $btn_user-select;
+    -moz-user-select: $btn_user-select;
+    -ms-user-select: $btn_user-select;
+    user-select: $btn_user-select;
+}
+
+.btn:focus, .btn.focus,
+.btn:active:focus, .btn:active.focus,
+.btn.active:focus, .btn.active.focus
+{
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+.btn:hover,
+.btn:focus, .btn.focus
+{
+    color: $btn-hover_color;
+    text-decoration: $btn-hover_text-decoration !important;
+}
+
+.btn:active, .btn.active
+{
+    outline: 0;
+    background-image: none;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn
+{
+    cursor: not-allowed;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+a.btn.disabled,
+fieldset[disabled] a.btn
+{
+    pointer-events: none;
+}
+
+.btn-primary
+{
+    color: $btn-primary_color;
+    background-color: $btn-primary_background-color;
+    border-color: $btn-primary_border-color;
+}
+
+.btn-primary:focus, .btn-primary.focus
+{
+    color: $btn-primary-focus_color;
+    background-color: $btn-primary-focus_background-color;
+    border-color: $btn-primary-focus_border-color;
+}
+
+.btn-primary:hover, .btn-primary.hover
+{
+    color: $btn-primary-hover_color;
+    background-color: $btn-primary-hover_background-color;
+    border-color: $btn-primary-hover_border-color;
+}
+
+.btn-primary:active, .btn-primary.active,
+.open > .btn-primary.dropdown-toggle
+{
+    color: $btn-primary-active_color;
+    background-color: $btn-primary-active_background-color;
+    border-color: $btn-primary-active_border-color;
+}
+
+.btn-primary:active:hover, .btn-primary:active:focus, .btn-primary:active.focus, .btn-primary.active:hover, .btn-primary.active:focus, .btn-primary.active.focus,
+.open > .btn-primary.dropdown-toggle:hover,
+.open > .btn-primary.dropdown-toggle:focus,
+.open > .btn-primary.dropdown-toggle.focus
+{
+    color: $btn-primary-active_color;
+    background-color: $btn-primary-active_background-color;
+    border-color: $btn-primary-active_border-color;
+}
+
+.btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled.focus, .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary:hover,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary.focus
+{
+    background-color: $btn-primary-disabled_background-color;
+    border-color: $btn-primary-disabled_border-color;
+}
+
+.btn-primary .badge
+{
+    color: $btn-primary-badge_color;
+    background-color: $btn-primary-badge_background-color;
+}
+
+
+.btn-secondary
+{
+    color: $btn-secondary_color;
+    background-color: $btn-secondary_background-color;
+    border-color: $btn-secondary_border-color;
+}
+
+.btn-secondary:focus, .btn-secondary.focus
+{
+    color: $btn-secondary-focus_color;
+    background-color: $btn-secondary-focus_background-color;
+    border-color: $btn-secondary-focus_border-color;
+}
+
+.btn-secondary:hover, .btn-secondary.hover
+{
+    color: $btn-secondary-hover_color;
+    background-color: $btn-secondary-hover_background-color;
+    border-color: $btn-secondary-hover_border-color;
+}
+
+.btn-secondary:active, .btn-secondary.active,
+.open > .btn-secondary.dropdown-toggle
+{
+    color: $btn-secondary-active_color;
+    background-color: $btn-secondary-active_background-color;
+    border-color: $btn-secondary-active_border-color;
+}
+
+.btn-secondary:active:hover, .btn-secondary:active:focus, .btn-secondary:active.focus, .btn-secondary.active:hover, .btn-secondary.active:focus, .btn-secondary.active.focus,
+.open > .btn-secondary.dropdown-toggle:hover,
+.open > .btn-secondary.dropdown-toggle:focus,
+.open > .btn-secondary.dropdown-toggle.focus
+{
+    color: $btn-secondary-active_color;
+    background-color: $btn-secondary-active_background-color;
+    border-color: $btn-secondary-active_border-color;
+}
+
+.btn-secondary.disabled:hover, .btn-secondary.disabled:focus, .btn-secondary.disabled.focus, .btn-secondary[disabled]:hover, .btn-secondary[disabled]:focus, .btn-secondary[disabled].focus,
+fieldset[disabled] .btn-secondary:hover,
+fieldset[disabled] .btn-secondary:focus,
+fieldset[disabled] .btn-secondary.focus
+{
+    background-color: $btn-secondary-disabled_background-color;
+    border-color: $btn-secondary-disabled_border-color;
+}
+
+.btn-secondary .badge
+{
+    color: $btn-secondary-badge_color;
+    background-color: $btn-secondary-badge_background-color;
+}
+
+
+.primary-color
+{
+    color: $primary-color;
+}
+
+.primary-color_background
+{
+    background-color: $primary-color;
+}
+
+.primary-color-light
+{
+    color: $primary-color-light;
+}
+
+.primary-color-light_background
+{
+    background-color: $primary-color-light;
+}
+
+.primary-color-dark
+{
+    color: $primary-color-dark;
+}
+
+.primary-color-dark_background
+{
+    background-color: $primary-color-dark;
+}
+
+.secondary-color
+{
+    color: $secondary-color;
+}
+
+.secondary-color_background
+{
+    background-color: $secondary-color;
+}
+
+.secondary-color-light
+{
+    color: $secondary-color-light;
+}
+
+.secondary-color-light_background
+{
+    background-color: $secondary-color-light;
+}
+
+.secondary-color-dark
+{
+    color: $secondary-color-dark;
+}
+
+.secondary-color-dark_background
+{
+    background-color: $secondary-color-dark;
+}
+
+.accent-color
+{
+    color: $accent-color;
+}
+
+.accent-color_background
+{
+    background-color: $accent-color;
+}
+
+.accent-color-light
+{
+    color: $accent-color;
+}
+
+.accent-color-light_background
+{
+    background-color: $accent-color;
+}
+
+.accent-color-dark
+{
+    color: $accent-color-dark;
+}
+
+.accent-color-dark_background
+{
+    background-color: $accent-color-dark;
+}
+
+
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px)
+{
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px)
+{
+}
