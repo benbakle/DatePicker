@@ -12,12 +12,14 @@
 <body>
     <div class="container">
 
-        <div class="form-group">
-            <label>Start Time:<input type="text" class="start-time" readonly="readonly" /></label>
-            <label>Start End:<input type="text" class="end-time" readonly="readonly" /></label>
-            <input type="submit" value="Submit" class="submit" />
+        <div class="date-picker1">
+            <input type="text" class="start-time picker-target" readonly="readonly" />
         </div>
-        <div class="calendar"></div>
+        <div class="date-picker2">
+            <input type="text" class="end-time picker-target" readonly="readonly" />
+        </div>
+
+        <input type="submit" value="Submit" class="submit" />
     </div>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
