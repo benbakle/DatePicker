@@ -28,7 +28,7 @@
                            "<div class='years-wrapper'></div>" +
                            "<div class='months-wrapper'></div>" +
                            "<div class='dates-wrapper'></div>" +
-                           "<div class='close-wrapper'><a href='#' class='close-picker'>Close</a></div>" +
+                           "<div class='close-wrapper'><a href='javascript:void(0)' class='close-picker'>Close</a></div>" +
                            "</div>"
                            );
     }
@@ -125,6 +125,12 @@
         })
     }
 
+    var attachClickToClose = function () {
+        $datePicker.find(".close-picker").on("click", function () {
+            $datePicker.find(".calendar.visible").removeClass("visible");
+        })
+    }
+
     var clearSelectedMarkers = function (selector) {
         $datePicker.find("." + selector).each(function () {
             $(this).removeClass("selected");
@@ -155,6 +161,7 @@
     printYearsToPicker(_selectedYear);
     printMonthsToPicker();
     printDatesToPicker(_selectedMonth, _selectedYear);
+    attachClickToClose();
     addSelectedMarkers();
     writeDateToInput();
 
@@ -163,6 +170,13 @@
 $(document).ready(function () {
     $(".date-picker1").datePicker();
     $(".date-picker2").datePicker();
+
+    $(".picker").on("click", function () {
+        $(this).find(".calendar").addClass("visible");
+    })
+
+    $(".close-picker").click(function () { $(".calendar").removeClass("visible") });
+
 });
 
 
