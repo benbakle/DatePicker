@@ -1,12 +1,12 @@
 ﻿$.fn.datePicker = function () {
-    var $dateInput = $(this);
+    var $datePicker = $(this);
+    var $dateInput = $datePicker.find(".picker-target");
     var _now = new Date();
 
     var _selectedYear = _now.getFullYear();
     var _selectedMonth = _now.getMonth() + 1;
     var _selectedDate = _now.getDate();
 
-    var $calendar = $(".calendar");
 
     var _obj_month = {
         '1': "January",
@@ -23,32 +23,62 @@
         '12': "December",
     }
 
-    var writeDateToInput = function () {
-        $dateInput.val(_obj_month[_selectedMonth] + " " + _selectedDate + ", " + _selectedYear);
+    var initializeDatePicker = function () {
+        $datePicker.append("<div class='calendar'>" +
+                           "<div class='years-wrapper'></div>" +
+                           "<div class='months-wrapper'></div>" +
+                           "<div class='dates-wrapper'></div>" +
+                           "<div class='close-wrapper'><a href='#' class='close-picker'>Close</a></div>" +
+                           "</div>"
+                           );
     }
 
-    var clearCalendarDays = function () {
-        $(".days").remove();
+    var printYearsToPicker = function (year) {
+        var $yearsWrapper = $datePicker.find(".years-wrapper");
+        var yearHtml = "";
+        year = year - 2;
+        for (i = 0; i < 5; i++) {
+            yearHtml = yearHtml + "<a href='javascript:void(0)' class='year' data-value='" + year + "' " + "'>" + year + "</a>"
+            year++;
+        }
+        $yearsWrapper.append(yearHtml);
+        attachClickToYears();
     }
 
-    var clearSelectedMarkers = function (selector) {
-        $("." + selector).each(function () {
-            $(this).removeClass("selected");
-        });
+    var printMonthsToPicker = function () {
+        var $monthWrapper = $datePicker.find(".months-wrapper");
+        var monthHtml = "";
+        for (i = 1; i <= 12; i++) {
+            monthHtml = monthHtml + "<a href='javascript:void(0)' class='month' data-value='" + i + "' " + "'>" + _obj_month[i] + "</a>";
+        }
+        $monthWrapper.append(monthHtml);
+        attachClickToMonths();
     }
 
-    var initializeSelected = function () {
-        var $selectedYear = $(".years").find("[data-value='" + _selectedYear + "']");
-        var $selectedMonth = $(".months").find("[data-value='" + _selectedMonth + "']");
-        var $selectedDay = $(".days").find("[data-value='" + _selectedDate + "']");
 
-        $selectedYear.addClass("selected");
-        $selectedMonth.addClass("selected");
-        $selectedDay.addClass("selected");
+    var printDatesToPicker = function (month, year) {
+        var monthDays = daysInTheMonth(month, year);
+        var $dateWrapper = $datePicker.find(".dates-wrapper");
+        var dateHtml = "";
 
-    }
-    var getDataValue = function (element) {
-        return $(element).attr("data-value")
+        var startDate = getMonthStartDay(month, year);
+
+        for (i = 1; i <= startDate; i++) {
+            dateHtml = dateHtml + "<span class='day-spacer'></span>";
+        }
+
+        var pos = i;
+
+        for (i = 1; i <= monthDays; i++) {
+            dateHtml = dateHtml + "<a href='javascript:void(0)' " + "class='day' data-value='" + i + "'>" + i + "</a>";
+            if ((pos % 7) == 0) {
+                dateHtml = dateHtml + "<br />";
+            }
+            pos++;
+        }
+
+        $dateWrapper.append(dateHtml);
+        attachClickToDays();
     }
 
     var daysInTheMonth = function (month, year) {
@@ -59,102 +89,89 @@
         return new Date(month + "/1/" + year).getDay();
     }
 
-    var printYearsToCalendar = function (year) {
-        year = year - 2;
-        var yearHtml = "<div class='years'>";
-        for (i = 0; i < 5; i++) {
-            yearHtml = yearHtml + "<a href='javascript:void(0)' class='year' data-value='" + year + "' " + "'>" + year + "</a>"
-            year++;
-        }
-        yearHtml = yearHtml + "</div>";
-        $calendar.append(yearHtml);
-    }
-
-    var printMonthsToCalendar = function () {
-        var monthHtml = "<div class='months'>";
-        for (i = 1; i <= 12; i++) {
-            monthHtml = monthHtml + "<a href='javascript:void(0)' class='month' data-value='" + i + "' " + "'>" + _obj_month[i] + "</a>";
-        }
-        monthHtml = monthHtml + "</div>"
-        $calendar.append(monthHtml);
-    }
-
-    var printDatesToCalendar = function (month, year) {
-        var monthDays = daysInTheMonth(month, year);
-        var dateHtml = "<div class='days'>"
-        var startDate = getMonthStartDay(month, year);
-
-        for (i = 1; i <= startDate; i++) {
-            dateHtml = dateHtml + "<span class='day-spacer'></span>";
-        }
-
-        var pos = i;
-        for (i = 1; i <= monthDays; i++) {
-            dateHtml = dateHtml + "<a href='javascript:void(0)' " +
-              "class='day' data-value='" + i + "'>" + i + "</a>";
-            if ((pos % 7) == 0) {
-                dateHtml = dateHtml + "<br />";
-            }
-            pos++;
-        }
-
-        $calendar.append(dateHtml);
-
-        $(".day").on("click", function () {
-            clearSelectedMarkers("day");
+    var attachClickToDays = function () {
+        $datePicker.find(".day").on("click", function () {
             _selectedDate = getDataValue($(this));
+            clearSelectedMarkers("day");
             $(this).addClass("selected");
             writeDateToInput();
-        })
+            addSelectedMarkers();
 
+        })
     }
 
-    printYearsToCalendar(_selectedYear);
-    printMonthsToCalendar();
-    printDatesToCalendar(_selectedMonth, _selectedYear);
+    var attachClickToMonths = function () {
+        $datePicker.find(".month").on("click", function () {
+            clearSelectedMarkers("month");
+            $(this).addClass("selected");
+            _selectedMonth = getDataValue($(this));
+            clearCalendarDates();
+            printDatesToPicker(_selectedMonth, _selectedYear);
+            addSelectedMarkers();
+            writeDateToInput();
+        })
+    }
+
+    var attachClickToYears = function () {
+        $datePicker.find(".year").on("click", function () {
+            clearSelectedMarkers("year");
+            $(this).addClass("selected");
+            _selectedYear = getDataValue($(this));
+            clearCalendarDates();
+            printDatesToPicker(_selectedMonth, _selectedYear);
+            addSelectedMarkers();
+            writeDateToInput();
+
+        })
+    }
+
+    var clearSelectedMarkers = function (selector) {
+        $datePicker.find("." + selector).each(function () {
+            $(this).removeClass("selected");
+        });
+    }
+
+    var clearCalendarDates = function () {
+        $datePicker.find(".dates-wrapper").html("");
+    }
+
+    var getDataValue = function (element) {
+        return $(element).attr("data-value")
+    }
+
+    var writeDateToInput = function () {
+        $dateInput.val(_obj_month[_selectedMonth] + " " + _selectedDate + ", " + _selectedYear);
+    }
+
+    var addSelectedMarkers = function () {
+        $datePicker.find(".years-wrapper").find("[data-value='" + _selectedYear + "']").addClass("selected");
+        $datePicker.find(".months-wrapper").find("[data-value='" + _selectedMonth + "']").addClass("selected");
+        $datePicker.find(".dates-wrapper").find("[data-value='" + _selectedDate + "']").addClass("selected");
+    }
+
+
+    //INITIALIZING PICKER
+    initializeDatePicker();
+    printYearsToPicker(_selectedYear);
+    printMonthsToPicker();
+    printDatesToPicker(_selectedMonth, _selectedYear);
+    addSelectedMarkers();
     writeDateToInput();
 
-    $(".year").on("click", function () {
-        clearSelectedMarkers("year");
-        $(this).addClass("selected");
-        _selectedYear = getDataValue($(this));
-        clearCalendarDays();
-        printDatesToCalendar(_selectedMonth, _selectedYear);
-        writeDateToInput();
-        initializeSelected();
-
-    })
-
-    $(".month").on("click", function () {
-        clearSelectedMarkers("month");
-        $(this).addClass("selected");
-        _selectedMonth = getDataValue($(this));
-        clearCalendarDays();
-        printDatesToCalendar(_selectedMonth, _selectedYear);
-        writeDateToInput();
-        initializeSelected();
-
-    })
-
-    $dateInput.on("click", function () {
-        $calendar.toggleClass("visible");
-    });
-
-    initializeSelected();
 }
 
-$(".submit").on("click", function () {
-    var inputValue = $(".start-time").val();
-    var d = new Date(inputValue);
-    d.setHours(9);
-    d.setMinutes(30);
-    alert(d);
-})
+$(document).ready(function () {
+    $(".date-picker1").datePicker();
+    $(".date-picker2").datePicker();
+});
 
-$(".start-time").datePicker();
+
+//$(".submit").on("click", function () {
+//    var inputValue = $(".start-time").val();
+//    var d = new Date(inputValue);
+//    d.setHours(9);
+//    d.setMinutes(30);
+//    alert(d);
+//})
+
 //$(".end-time").datePicker();
-
-var test = function () {
-    return (1) ? true : false;
-}
-console.log(test());
