@@ -27,6 +27,8 @@
           "<div class='years-wrapper'></div>" +
           "<div class='months-wrapper'></div>" +
           "<div class='dates-wrapper'></div>" +
+          "<div class='hours-wrapper'></div>" +
+          "<div class='minutes-wrapper'></div>" +
           "<div class='close-wrapper'><a href='javascript:void(0)' class='close-picker'>Close</a></div>" +
           "</div>"
         );
@@ -39,7 +41,17 @@
 
         $($dateInput).on("click", function (e) {
             closeCalendar();
-            $($datePicker).find(".calendar").addClass("visible");
+            $(".calendar", $datePicker).addClass("visible");
+        });
+
+        $(document).on("mouseup", function (e) {
+            var container = $(".calendar");
+            if (!container.is(e.target) // if the target of the click isn't the container...
+              &&
+              container.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                closeCalendar();
+            }
         });
 
     }
@@ -94,6 +106,17 @@
         $dateWrapper.append(dateHtml);
         attachClickToDays();
     }
+
+    var printHoursToPicker = function (year) {
+        var $hoursWrapper = $(".hours-wrapper", $datePicker);
+        var hourHtml = "";
+        for (i = 1; i <= 12; i++) {
+            hourHtml = hourHtml + "<a href='javascript:void(0)' class='hour' data-value='" + i + "' " + "'>" + i + "</a>"
+        }
+        $hoursWrapper.append(hourHtml);
+        // attachClickToHours();
+    }
+
 
     var daysInTheMonth = function (month, year) {
         return new Date(year, month, 0).getDate();
@@ -171,19 +194,21 @@
 
     //INITIALIZING PICKER
     initializeDatePicker();
-    wireEvents();
     printYearsToPicker(_selectedYear);
     printMonthsToPicker();
     printDatesToPicker(_selectedMonth, _selectedYear);
+    printHoursToPicker();
     attachClickToClose();
     addSelectedMarkers();
     writeDateToInput();
+    wireEvents();
+
 
 }
 
 $(document).ready(function () {
-    $(".date-picker1").datePicker();
-    $(".date-picker2").datePicker();
+    $(".start-time").datePicker();
+    $(".end-time").datePicker();
 });
 
 //$(".submit").on("click", function () {

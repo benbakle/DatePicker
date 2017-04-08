@@ -1,24 +1,24 @@
-﻿
+﻿.picker
+{
+    position: relative;
+    display: inline-block;
+    max-width: 250px;
+    width: 100%;
+}
+
 .picker-target
 {
     margin-bottom: 25px;
     padding: 10px 5px;
     width: 100%;
-    max-width: 250px;
     cursor: pointer;
 }
-
-.picker
-{
-    position: relative;
-}
-
 
 .calendar
 {
     min-width: 300px;
     width: calc(100% - 30px);
-    max-width: 650px;
+    max-width: 350px;
     transition: .5s;
     box-shadow: 0 0 50px #333;
     padding: 15px;
@@ -29,7 +29,8 @@
     border: 1px solid #999;
     margin-bottom: 25px;
     position: absolute;
-    top: 50px;
+    top: 0;
+    left: calc(100% + 15px);
     visibility: hidden;
     opacity: 0;
     z-index: -100;
@@ -42,7 +43,7 @@
     z-index: 10;
 }
 
-
+.hours-wrapper,
 .years-wrapper,
 .months-wrapper
 {
@@ -59,7 +60,8 @@
 .day-spacer,
 .day,
 .month,
-.year
+.year,
+.hour
 {
     display: inline-block;
     box-sizing: border-box;
@@ -67,7 +69,7 @@
     transition: .25s;
 }
 
-
+a.hour,
 a.day,
 a.month,
 a.year
@@ -79,6 +81,7 @@ a.year
     transition: .25s;
 }
 
+a.hour,
 a.month,
 a.year
 {
@@ -86,6 +89,7 @@ a.year
     border-top: 1px solid #efefef;
 }
 
+a.hour:nth-child(4n),
 a.month:nth-child(4n),
 a.year:nth-child(5n)
 {
@@ -97,6 +101,7 @@ a.day
     border: .5px solid #efefef;
 }
 
+a.hour:hover,
 a.day:hover,
 a.month:hover,
 a.year:hover,
@@ -117,7 +122,8 @@ a.year
     width: 20%;
 }
 
-a.month
+a.month,
+a.hour
 {
     width: 25%;
 }
