@@ -19,7 +19,7 @@
     min-width: 300px;
     width: calc(100% - 30px);
     max-width: 650px;
-    transition: 1s;
+    transition: .5s;
     box-shadow: 0 0 50px #333;
     padding: 15px;
     border-radius: 2px;

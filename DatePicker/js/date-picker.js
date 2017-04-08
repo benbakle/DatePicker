@@ -7,7 +7,6 @@
     var _selectedMonth = _now.getMonth() + 1;
     var _selectedDate = _now.getDate();
 
-
     var _obj_month = {
         '1': "January",
         '2': "February",
@@ -25,12 +24,28 @@
 
     var initializeDatePicker = function () {
         $datePicker.append("<div class='calendar'>" +
-                           "<div class='years-wrapper'></div>" +
-                           "<div class='months-wrapper'></div>" +
-                           "<div class='dates-wrapper'></div>" +
-                           "<div class='close-wrapper'><a href='javascript:void(0)' class='close-picker'>Close</a></div>" +
-                           "</div>"
-                           );
+          "<div class='years-wrapper'></div>" +
+          "<div class='months-wrapper'></div>" +
+          "<div class='dates-wrapper'></div>" +
+          "<div class='close-wrapper'><a href='javascript:void(0)' class='close-picker'>Close</a></div>" +
+          "</div>"
+        );
+    }
+
+    var wireEvents = function () {
+        $('.close-picker', $datePicker).on('click', function () {
+            closeCalendar();
+        });
+
+        $($dateInput).on("click", function (e) {
+            closeCalendar();
+            $($datePicker).find(".calendar").addClass("visible");
+        });
+
+    }
+
+    var closeCalendar = function () {
+        $('.calendar').removeClass('visible');
     }
 
     var printYearsToPicker = function (year) {
@@ -54,7 +69,6 @@
         $monthWrapper.append(monthHtml);
         attachClickToMonths();
     }
-
 
     var printDatesToPicker = function (month, year) {
         var monthDays = daysInTheMonth(month, year);
@@ -155,9 +169,9 @@
         $datePicker.find(".dates-wrapper").find("[data-value='" + _selectedDate + "']").addClass("selected");
     }
 
-
     //INITIALIZING PICKER
     initializeDatePicker();
+    wireEvents();
     printYearsToPicker(_selectedYear);
     printMonthsToPicker();
     printDatesToPicker(_selectedMonth, _selectedYear);
@@ -170,15 +184,7 @@
 $(document).ready(function () {
     $(".date-picker1").datePicker();
     $(".date-picker2").datePicker();
-
-    $(".picker").on("click", function () {
-        $(this).find(".calendar").addClass("visible");
-    })
-
-    $(".close-picker").click(function () { $(".calendar").removeClass("visible") });
-
 });
-
 
 //$(".submit").on("click", function () {
 //    var inputValue = $(".start-time").val();
