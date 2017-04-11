@@ -1,0 +1,105 @@
+﻿.wrap-it-picker
+{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.picker
+{
+    position: absolute;
+    top: calc(100% + 10px);
+    background-color: #fff;
+    z-index: 100;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 450px;
+}
+
+.picker-input{
+    padding:5px 10px;
+    margin:10px 10px 10px 0;
+}
+
+.picker,
+.calendar,
+.time
+{
+    display: none;
+}
+
+.picker.active,
+.calendar.active,
+.time.active
+{
+    display: block;
+}
+
+
+.date-link:after,
+.time-link:after,
+.year,
+.month,
+.day-spacer,
+.day,
+.hour,
+.minute,
+.meridian
+{
+    display: inline-block;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.date-link,
+.time-link,
+.meridian
+{
+    font-size: 16px;
+}
+
+.date-link:after,
+.time-link:after,
+.meridian
+{
+    width: 50%;
+}
+
+.date-link:after,
+.time-link:after
+{
+    font-family: FontAwesome;
+}
+
+
+.date-link:after
+{
+    content: "\f073";
+}
+
+.time-link:after
+{
+    content: "\f017";
+}
+
+.year
+{
+    width: 33.33%;
+}
+
+.month
+{
+    width: 25%;
+}
+
+.day-spacer,
+.day
+{
+    width: 14.28571428571429%;
+}
+
+.hour,
+.minute
+{
+    width: 16.6666%;
+}
