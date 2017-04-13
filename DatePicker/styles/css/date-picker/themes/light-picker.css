@@ -1,17 +1,34 @@
 ﻿.picker
 {
-    border: 1px solid #aaa;
+    border: 1px solid #eee;
     box-shadow: 0 0 15px #333;
     padding: 5px 10px;
-    font-family:'Century Gothic';
-    font-size:12px;
+    font-family: 'Century Gothic';
+    background-color: #fff;
+    border-radius: 3px;
+
 }
 
 .picker a
 {
     text-decoration: none;
-    color:#777;
+    color: #555;
 }
+
+.date-link{
+    border-right:1px solid #eee;
+    margin-right:-1px;
+}
+
+.date-link.open,
+.time-link.open,
+.date-link:hover,
+.time-link:hover,
+.close-picker:hover
+{
+    text-shadow: 0 0 35px #333;
+}
+
 
 .date-link:after,
 .time-link:after,
@@ -25,6 +42,17 @@
 {
 }
 
+.hour, .minute, .meridian
+{
+    padding: 10px;
+    font-size: 1.15em;
+}
+
+
+.minute:before
+{
+    content: ":";
+}
 
 a.selected,
 a.selected:hover,
@@ -32,18 +60,34 @@ a.selected:focus
 {
     background-color: #eee;
     color: #333;
-    border:1px solid #ddd;
-    margin:-1px 0;
-    border-radius: 3em;
-    font-weight:700;
-}
-.picker-nav,
-.years-wrapper,
-.months-wrapper
-{
-    padding:3px 0;
+    border: 1px solid #ddd;
+    margin: -1px 0;
+    border-radius: 3px;
+    font-weight: 700;
 }
 
-.dates-wrapper{
-    height:180px;
+.picker-nav,
+.years-wrapper,
+.months-wrapper,
+.dates-wrapper,
+.hours-wrapper,
+.minutes-wrapper,
+.meridian-wrapper
+{
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.dates-wrapper
+{
+    height: 195px;
+}
+
+.close-picker
+{
+    display:block;
+    text-align:center;
+    font-size:1.2em;
+    padding:10px;
+    text-transform:uppercase;   
 }

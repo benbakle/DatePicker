@@ -16,9 +16,13 @@
     max-width: 450px;
 }
 
-.picker-input{
-    padding:5px 10px;
-    margin:10px 10px 10px 0;
+.picker-input
+{
+    padding: 5px 10px;
+    margin: 10px 10px 10px 0;
+    width: 100%;
+    max-width: 450px;
+    font-size:1.5em;
 }
 
 .picker,
@@ -48,21 +52,26 @@
 {
     display: inline-block;
     text-align: center;
-    padding: 5px 0;
+    padding: 5px 2px;
 }
 
+
 .date-link,
-.time-link,
+.time-link
+{
+    font-size: 1.8em;
+}
+
 .meridian
 {
-    font-size: 16px;
+    font-size: 1.2em;
 }
 
 .date-link:after,
 .time-link:after,
 .meridian
 {
-    width: 50%;
+    width: calc(50% - 5px);
 }
 
 .date-link:after,
@@ -84,12 +93,12 @@
 
 .year
 {
-    width: 33.33%;
+    width: calc(33.33% - 5px);
 }
 
 .month
 {
-    width: 25%;
+    width: calc(25% - 5px);
 }
 
 .day-spacer,

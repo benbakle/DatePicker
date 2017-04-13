@@ -1,6 +1,8 @@
 ﻿$.fn.datePicker = function () {
-    var $datePicker = $(this);
-    var $dateInput = $datePicker.find(".picker-input");
+    var $picker = $(this);
+    var $pickerInput = $(".picker-input", $picker);
+
+    initializeDatePicker();
 
     var _now = new Date();
     var _selectedYear = _now.getFullYear();
@@ -8,10 +10,17 @@
     var _selectedDate = _now.getDate();
     var _selectedHour = _now.getHours();
     var _selectedMinute = _now.getMinutes();
-    var _selectedMeridian = (_selectedHour > 12) ? "PM" : "AM";
+    var _selectedMeridian = (_selectedHour >= 12) ? "PM" : "AM";
 
 
-    var _obj_month = {
+    var _$yearsWrapper = $(".years-wrapper", $picker);
+    var _$monthsWrapper = $(".months-wrapper", $picker);
+    var _$datesWrapper = $(".dates-wrapper", $picker);
+    var _$hoursWrapper = $(".hours-wrapper", $picker);
+    var _$minutesWrapper = $(".minutes-wrapper", $picker);
+    var _$meridiansWrapper = $(".meridians-wrapper", $picker);
+
+    var monthValueToString = {
         '1': "January",
         '2': "February",
         '3': "March",
@@ -26,10 +35,22 @@
         '12': "December",
     }
 
-    var initializeDatePicker = function () {
-        $datePicker.append("<div class='picker'>" +
+
+    printYearsToPicker(_selectedYear);
+    printMonthsToPicker();
+    printDatesToPicker();
+    printHoursToPicker();
+    printMinutesToPicker();
+    addSelectedMarkers();
+    setPickerInputValue();
+    wireEvents();
+
+
+    //---FUNCTIONS----//
+    function initializeDatePicker() {
+        $picker.append("<div class='picker'>" +
           "<div class='picker-nav'>" +
-          "<a href='javascript:void(0)' class='date-link'></a>" +
+          "<a href='javascript:void(0)' class='date-link open'></a>" +
           "<a href='javascript:void(0)' class='time-link'></a>" +
           "</div>" +
           "<div class='calendar active'>" +
@@ -40,7 +61,7 @@
           "<div class='time'>" +
           "<div class='hours-wrapper'></div>" +
           "<div class='minutes-wrapper'></div>" +
-           "<div class='meridian-wrapper'>" +
+           "<div class='meridians-wrapper'>" +
           "<a href='javascript:void(0)' class='meridian' data-value='AM'>AM</a>" +
           "<a href='javascript:void(0)' class='meridian' data-value='PM'>PM</a>" +
           "</div>" +
@@ -50,24 +71,71 @@
         );
     }
 
-    var wireEvents = function () {
-        $('.close-picker', $datePicker).on('click', function () {
+    function printYearsToPicker(year) {
+        _$yearsWrapper.append(renderYearsHtml(year - 1));
+        attachClickToYears();
+    }
+
+    function printMonthsToPicker() {
+        _$monthsWrapper.append(renderMonthsHtml());
+        attachClickToMonths();
+    }
+    function printDatesToPicker() {
+        _$datesWrapper.append(renderDateSpacerHtml() + renderDatesHtml());
+        attachClickToDays();
+    }
+
+    function printHoursToPicker() {
+        _$hoursWrapper.append(renderHoursHtml());
+        attachClickToHours();
+    }
+
+    function printMinutesToPicker() {
+        _$minutesWrapper.append(renderMinutesHtml());
+        attachClickToMinutes();
+    }
+
+    function addSelectedMarkers() {
+        _$yearsWrapper.find("[data-value='" + _selectedYear + "']").addClass("selected");
+        _$monthsWrapper.find("[data-value='" + _selectedMonth + "']").addClass("selected");
+        _$datesWrapper.find("[data-value='" + _selectedDate + "']").addClass("selected");
+        _$hoursWrapper.find("[data-value='" + toStandardTime(_selectedHour) + "']").addClass("selected");
+        _$minutesWrapper.find("[data-value='" + roundTimeToNearest5(_selectedMinute) + "']").addClass("selected");
+        _$meridiansWrapper.find("[data-value='" + _selectedMeridian + "']").addClass("selected");
+    }
+
+    function setPickerInputValue() {
+        $pickerInput.val(
+            monthValueToString[_selectedMonth] + " " +
+            _selectedDate + ", " +
+            _selectedYear + " " +
+            toStandardTime(_selectedHour) + ":" +
+            setIntegerLength(roundTimeToNearest5(_selectedMinute), 2) + " " +
+            _selectedMeridian);
+    }
+
+    function wireEvents() {
+        $('.close-picker', $picker).on('click', function () {
             closeCalendar();
         });
 
-        $($dateInput).on("click", function (e) {
+        $pickerInput.on("click", function (e) {
             closeCalendar();
-            $(".picker", $datePicker).addClass("active");
+            $(".picker", $picker).addClass("active");
         });
 
-        $(".date-link", $datePicker).on("click", function () {
-            $(".time", $datePicker).removeClass("active");
-            $(".calendar", $datePicker).addClass("active");
+        $(".date-link", $picker).on("click", function () {
+            $(".time", $picker).removeClass("active");
+            $(".calendar", $picker).addClass("active");
+            $(this).siblings(".time-link").removeClass("open");
+            $(this).addClass("open");
         });
 
-        $(".time-link", $datePicker).on("click", function () {
-            $(".calendar", $datePicker).removeClass("active");
-            $(".time", $datePicker).addClass("active");
+        $(".time-link", $picker).on("click", function () {
+            $(".calendar", $picker).removeClass("active");
+            $(".time", $picker).addClass("active");
+            $(this).siblings(".date-link").removeClass("open");
+            $(this).addClass("open");
         });
 
         attachClickToMeridian();
@@ -85,225 +153,185 @@
 
     }
 
-    var closeCalendar = function () {
-        $('.picker').removeClass('active');
-    }
-
-    var printYearsToPicker = function (year) {
-        var $yearsWrapper = $datePicker.find(".years-wrapper");
-        var yearHtml = "";
-        year = year - 1;
+    function renderYearsHtml(year) {
+        var html = "";
         for (i = 0; i < 3; i++) {
-            yearHtml = yearHtml + "<a href='javascript:void(0)' class='year' data-value='" + year + "' " + "'>" + year + "</a>"
+            html = html + "<a href='javascript:void(0)' class='year' data-value='" + year + "' " + "'>" + year + "</a>"
             year++;
         }
-        $yearsWrapper.append(yearHtml);
-        attachClickToYears();
+        return html;
     }
 
-    var printMonthsToPicker = function () {
-        var $monthWrapper = $datePicker.find(".months-wrapper");
-        var monthHtml = "";
+    function renderMonthsHtml() {
+        var html = "";
         for (i = 1; i <= 12; i++) {
-            monthHtml = monthHtml + "<a href='javascript:void(0)' class='month' data-value='" + i + "' " + "'>" + _obj_month[i] + "</a>";
+            html = html + "<a href='javascript:void(0)' class='month' data-value='" + i + "' " + "'>" + monthValueToString[i] + "</a>"
         }
-        $monthWrapper.append(monthHtml);
-        attachClickToMonths();
+        return html;
     }
 
-    var printDatesToPicker = function (month, year) {
-        var monthDays = daysInTheMonth(month, year);
-        var $dateWrapper = $datePicker.find(".dates-wrapper");
-        var dateHtml = "";
-
-        var startDate = getMonthStartDay(month, year);
-
-        for (i = 1; i <= startDate; i++) {
-            dateHtml = dateHtml + "<span class='day-spacer'></span>";
+    function renderHoursHtml() {
+        var html = "";
+        for (i = 1; i <= 12; i++) {
+            html = html + "<a href='javascript:void(0)' class='hour' data-value='" + i + "' " + "'>" + i + "</a>"
         }
+        return html;
+    }
 
-        var pos = i;
+    function renderDateSpacerHtml() {
+        var html = "";
+        for (i = 1; i < selectedMonthStartDay() ; i++) {
+            html = html + "<span class='day-spacer'></span>";
+        }
+        return html;
+    }
 
-        for (i = 1; i <= monthDays; i++) {
-            dateHtml = dateHtml + "<a href='javascript:void(0)' " + "class='day' data-value='" + i + "'>" + i + "</a>";
-            if ((pos % 7) == 0) {
-                dateHtml = dateHtml + "<br />";
+    function renderDatesHtml(datesPosition) {
+        var html = "";
+        var datesPosition = selectedMonthStartDay();
+        for (i = 1; i <= daysInSelectedMonth() ; i++) {
+            html = html + "<a href='javascript:void(0)' " + "class='day' data-value='" + i + "'>" + i + "</a>";
+            if ((datesPosition % 7) == 0) {
+                html = html + "<br />";
             }
-            pos++;
+            datesPosition++;
         }
-
-        $dateWrapper.append(dateHtml);
-        attachClickToDays();
+        return html;
     }
 
-    var printHoursToPicker = function () {
-        var $hoursWrapper = $(".hours-wrapper", $datePicker);
-        var hourHtml = "";
-        for (i = 1; i <= 12; i++) {
-            hourHtml = hourHtml + "<a href='javascript:void(0)' class='hour' data-value='" + i + "' " + "'>" + i + "</a>"
-        }
-        $hoursWrapper.append(hourHtml);
-        attachClickToHours();
-    }
-
-    var printMinutesToPicker = function () {
-        var $minutesWrapper = $(".minutes-wrapper", $datePicker);
-        var minuteHtml = "";
+    function renderMinutesHtml() {
+        var html = "";
         for (i = 0; i <= 55; i = i + 5) {
             var iEdited = setIntegerLength(i, 2);
-            minuteHtml = minuteHtml + "<a href='javascript:void(0)' class='minute' data-value='" + iEdited + "' " + "'>" + iEdited + "</a>"
+            html = html + "<a href='javascript:void(0)' class='minute' data-value='" + iEdited + "' " + "'>" + iEdited + "</a>"
         }
-        $minutesWrapper.append(minuteHtml);
-        attachClickToMinutes();
+        return html;
     }
 
-    var setIntegerLength = function (i, intLength) {
-        return (i * .01).toFixed(2).split(".")[1];
-    }
-
-    var daysInTheMonth = function (month, year) {
-        return new Date(year, month, 0).getDate();
-    }
-
-    var getMonthStartDay = function (month, year) {
-        return new Date(month + "/1/" + year).getDay();
-    }
-
-    var attachClickToDays = function () {
-        $datePicker.find(".day").on("click", function () {
-            _selectedDate = getDataValue($(this));
-            clearSelectedMarkers("day");
-            $(this).addClass("selected");
-            writeDateToInput();
-            addSelectedMarkers();
-
-        })
-    }
-
-    var attachClickToMonths = function () {
-        $datePicker.find(".month").on("click", function () {
-            clearSelectedMarkers("month");
-            $(this).addClass("selected");
-            _selectedMonth = getDataValue($(this));
-            clearCalendarDates();
-            printDatesToPicker(_selectedMonth, _selectedYear);
-            addSelectedMarkers();
-            writeDateToInput();
-        })
-    }
-
-    var attachClickToYears = function () {
-        $datePicker.find(".year").on("click", function () {
+    function attachClickToYears() {
+        $picker.find(".year").on("click", function () {
             clearSelectedMarkers("year");
             $(this).addClass("selected");
             _selectedYear = getDataValue($(this));
             clearCalendarDates();
-            printDatesToPicker(_selectedMonth, _selectedYear);
+            printDatesToPicker();
             addSelectedMarkers();
-            writeDateToInput();
+            setPickerInputValue();
 
         })
     }
 
-    var attachClickToHours = function () {
-        $datePicker.find(".hour").on("click", function () {
+    function attachClickToMonths() {
+        $picker.find(".month").on("click", function () {
+            clearSelectedMarkers("month");
+            $(this).addClass("selected");
+            _selectedMonth = getDataValue($(this));
+            clearCalendarDates();
+            printDatesToPicker();
+            addSelectedMarkers();
+            setPickerInputValue();
+        })
+    }
+
+    function attachClickToDays() {
+        $picker.find(".day").on("click", function () {
+            _selectedDate = getDataValue($(this));
+            clearSelectedMarkers("day");
+            $(this).addClass("selected");
+            setPickerInputValue();
+            addSelectedMarkers();
+
+        })
+    }
+
+    function attachClickToHours() {
+        $picker.find(".hour").on("click", function () {
             clearSelectedMarkers("hour");
             $(this).addClass("selected");
             _selectedHour = getDataValue($(this));
             addSelectedMarkers();
-            writeDateToInput();
-
+            setPickerInputValue();
         })
     }
 
-    var attachClickToMinutes = function () {
-        $datePicker.find(".minute").on("click", function () {
+
+    function attachClickToMinutes() {
+        $picker.find(".minute").on("click", function () {
             clearSelectedMarkers("minute");
             $(this).addClass("selected");
             _selectedMinute = getDataValue($(this));
             addSelectedMarkers();
-            writeDateToInput();
+            setPickerInputValue();
 
         })
     }
-    var attachClickToMeridian = function () {
-        $datePicker.find(".meridian").on("click", function () {
+    function attachClickToMeridian() {
+        $picker.find(".meridian").on("click", function () {
             clearSelectedMarkers("meridian");
             $(this).addClass("selected");
             _selectedMeridian = getDataValue($(this));
             addSelectedMarkers();
-            writeDateToInput();
+            setPickerInputValue();
 
         })
     }
 
-    var clearSelectedMarkers = function (selector) {
-        $datePicker.find("." + selector).each(function () {
+    function setIntegerLength(i, intLength) {
+        return (i * .01).toFixed(2).split(".")[1];
+    }
+
+    function daysInTheMonth(month, year) {
+        return new Date(year, month, 0).getDate();
+    }
+
+    function daysInSelectedMonth() {
+        return new Date(_selectedYear, _selectedMonth, 0).getDate();
+
+    }
+    function getMonthStartDay(month, year) {
+        return new Date(month + "/1/" + year).getDay();
+    }
+
+    function selectedMonthStartDay() {
+        return getMonthStartDay(_selectedMonth, _selectedYear) + 1;
+    }
+
+    function clearSelectedMarkers(selector) {
+        $("." + selector, $picker).each(function () {
             $(this).removeClass("selected");
         });
     }
 
-    var clearCalendarDates = function () {
-        $datePicker.find(".dates-wrapper").html("");
+    function clearCalendarDates() {
+        $picker.find(".dates-wrapper").html("");
     }
 
-    var getDataValue = function (element) {
+    function getDataValue(element) {
         return $(element).attr("data-value")
     }
-    var toStandardTime = function (milTime) {
+    function toStandardTime(milTime) {
         if (milTime == 0) { milTime = 12 };
         return (milTime > 12) ? milTime - 12 : milTime;
     }
 
-    var roundTimeToNearest5 = function (time) {
+    function roundTimeToNearest5(time) {
         time = Math.ceil(time / 5) * 5
-        if(time == 60){
-            return 55;
-        }
-        return time;
+        return (time == 60) ? 55 : time;
     }
 
-    var writeDateToInput = function () {
-        var test = _selectedMeridian;
-        $dateInput.val(_obj_month[_selectedMonth] + " " +
-            _selectedDate + ", " + _selectedYear + " " +
-            toStandardTime(_selectedHour) + ":" + setIntegerLength(roundTimeToNearest5(_selectedMinute), 2) + " " + _selectedMeridian);
+    function closeCalendar() {
+        $('.picker').removeClass('active');
     }
-
-    var addSelectedMarkers = function () {
-        $datePicker.find(".years-wrapper").find("[data-value='" + _selectedYear + "']").addClass("selected");
-        $datePicker.find(".months-wrapper").find("[data-value='" + _selectedMonth + "']").addClass("selected");
-        $datePicker.find(".dates-wrapper").find("[data-value='" + _selectedDate + "']").addClass("selected");
-        $datePicker.find(".hours-wrapper").find("[data-value='" + toStandardTime(_selectedHour) + "']").addClass("selected");
-        $datePicker.find(".minutes-wrapper").find("[data-value='" + roundTimeToNearest5(_selectedMinute) + "']").addClass("selected");
-        $datePicker.find(".meridian-wrapper").find("[data-value='" + _selectedMeridian + "']").addClass("selected");
-    }
-
-    //INITIALIZING PICKER
-    initializeDatePicker();
-    printYearsToPicker(_selectedYear);
-    printMonthsToPicker();
-    printDatesToPicker(_selectedMonth, _selectedYear);
-    printHoursToPicker();
-    printMinutesToPicker();
-    addSelectedMarkers();
-    writeDateToInput();
-    wireEvents();
-
-
 }
+
+
 
 $(document).ready(function () {
     $(".start-time").datePicker();
     $(".end-time").datePicker();
+    $(".close-picker").on("click", function () {
+        var result = $(this).closest(".picker").siblings(".picker-input").val();
+        $(".container").append("<p>" + new Date(result) + "</p>");
+    })
 });
 
-//$(".submit").on("click", function () {
-//    var inputValue = $(".start-time").val();
-//    var d = new Date(inputValue);
-//    d.setHours(9);
-//    d.setMinutes(30);
-//    alert(d);
-//})
-
-//$(".end-time").datePicker();

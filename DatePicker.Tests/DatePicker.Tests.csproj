@@ -55,14 +55,17 @@
   <ItemGroup>
     <Content Include="Content\jasmine\jasmine.css" />
     <Content Include="Content\jasmine\jasmine_favicon.png" />
-    <Content Include="Scripts\jasmine\boot.js" />
-    <Content Include="Scripts\jasmine\console.js" />
-    <Content Include="Scripts\jasmine\jasmine-html.js" />
-    <Content Include="Scripts\jasmine\jasmine.js" />
+    <Content Include="scripts\jasmine\boot.js" />
+    <Content Include="scripts\jasmine\console.js" />
+    <Content Include="scripts\jasmine\jasmine-html.js" />
+    <Content Include="scripts\jasmine\jasmine.js" />
+    <Content Include="specs\wrap-it.spec.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="chutzpah.json" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

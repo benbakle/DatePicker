@@ -1,0 +1,17 @@
+﻿{
+  "EnableCodeCoverage": false,
+  "EnableTestFileBatching": false,
+  "Framework": "jasmine",
+  "FrameworkVersion": "2",
+  "References": [
+    { "Path": "../DatePicker/js" },
+    { "Path": "https://code.jquery.com/jquery-3.2.1.js" }
+    //  { "Path": "../TDD.Tests/Scripts/jasmine-jquery.js" }
+  ],
+  "TestHarnessLocationMode": "SettingsFileAdjacent",
+  "Tests": [
+    {
+      "Path": "specs"
+    }
+  ]
+}
